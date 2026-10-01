@@ -18,15 +18,20 @@ apk --cache-dir "$APK_CACHE_DIR" add micro
 echo Installing superfile
 apk --cache-dir "$APK_CACHE_DIR" add superfile
 
+echo Installing curl
+apk --cache-dir "$APK_CACHE_DIR" add curl
+
 echo Installing fish
 apk --cache-dir "$APK_CACHE_DIR" add fish
 
-cd Downloads
 mkdir -p ~/.config/fish; cat > ~/.config/fish/config.fish <<'EOF'
 if status is-interactive
     clear
+    cd Downloads
+    
     set -g fish_greeting ""
     fastfetch
+
     alias cat='bat'
     alias cls='clear'
     alias ls='lsd -lha --icon always --blocks size,name --size short --date "+%a %d.%m.%Y"'
@@ -43,3 +48,6 @@ end
 EOF
 
 source ~/.config/fish/config.fish
+
+sh -c "$(curl -sLo- https://raw.githubusercontent.com/OxFF00FF/docker-config/refs/heads/main/install-superfile.sh)"
+fish_add_path "$APK_CACHE_DIR"/Tools/superfile/bin
