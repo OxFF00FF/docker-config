@@ -1,4 +1,6 @@
 #!/bin/bash
+uname -a
+
 APK_CACHE_DIR="/mnt/host/c/.apk-cache"
 
 mkdir -p "$APK_CACHE_DIR"
@@ -14,12 +16,6 @@ apk --cache-dir "$APK_CACHE_DIR" add lsd
 
 echo Installing micro
 apk --cache-dir "$APK_CACHE_DIR" add micro
-
-echo Installing superfile
-apk --cache-dir "$APK_CACHE_DIR" add superfile
-
-echo Installing curl
-apk --cache-dir "$APK_CACHE_DIR" add curl
 
 echo Installing fish
 apk --cache-dir "$APK_CACHE_DIR" add fish
