@@ -1,0 +1,45 @@
+#!/bin/bash
+APK_CACHE_DIR="/mnt/host/c/.apk-cache"
+
+mkdir -p "$APK_CACHE_DIR"
+
+echo Installing fastfetch
+apk --cache-dir "$APK_CACHE_DIR" add fastfetch
+
+echo Installing bat
+apk --cache-dir "$APK_CACHE_DIR" add bat
+
+echo Installing lsd
+apk --cache-dir "$APK_CACHE_DIR" add lsd
+
+echo Installing micro
+apk --cache-dir "$APK_CACHE_DIR" add micro
+
+echo Installing superfile
+apk --cache-dir "$APK_CACHE_DIR" add superfile
+
+echo Installing fish
+apk --cache-dir "$APK_CACHE_DIR" add fish
+
+cd Downloads
+mkdir -p ~/.config/fish; cat > ~/.config/fish/config.fish <<'EOF'
+if status is-interactive
+    clear
+    set -g fish_greeting ""
+    fastfetch
+    alias cat='bat'
+    alias cls='clear'
+    alias ls='lsd -lha --icon always --blocks size,name --size short --date "+%a %d.%m.%Y"'
+    alias lsa='ls -lha'
+    alias nano='micro'
+
+    echo "____________________"
+    lsd -lha --icon always --blocks size,date,name --size short --date '+%a %d.%m.%Y'
+end
+
+function fish_prompt
+    printf '\n┌──(\e[1;32m%s\e[0m🐠\e[1;32m%s\e[0m)-[\e[1;34m%s\e[0m]\n└─❯ ' (whoami) (hostname) (prompt_pwd)
+end
+EOF
+
+source ~/.config/fish/config.fish
